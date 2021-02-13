@@ -1,4 +1,0 @@
-Hello,
-First of all, I would like to thank you for this opportunity.
-
-All parts should be dont as well as the suggested functions. I tried to label my functions as best as possible.

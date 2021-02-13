@@ -90,14 +90,19 @@ let buildNav = () => {
     navbar.appendChild(element);
   }
 
-  navbar.addEventListener("click", (e) => {
-    let secNo = parseInt(e.target.textContent.split(" ")[1])-1;
-    sections[secNo].scrollIntoView({ behavior: "smooth" });
-  });
+  
 };
 
 // Add class 'active' to section when near top of viewport
 let activateSections = () => {
+  let list = document.querySelectorAll("li");
+
+  navbar.addEventListener("click", (e) => {
+    let secNo=list.indexOf(e.target);
+    sections[secNo].scrollIntoView({ behavior: "smooth" });
+  });
+
+
   document.addEventListener("scroll", () => {
     if (elementInViewport(document.querySelector("footer"))) {
       document.getElementById("scroll_btn").classList.add("show-btn");
@@ -106,7 +111,7 @@ let activateSections = () => {
     }
 
     let i = 0;
-    let list = document.querySelectorAll("li");
+    
     for (const section of sections) {
       i++;
       if (elementInViewport(section)) {
