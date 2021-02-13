@@ -20,6 +20,9 @@
 const navbar = document.getElementById("navbar__list");
 const buttons = document.querySelectorAll("button");
 const sectionHeaders = document.querySelector("h2");
+const sections = document.querySelectorAll("section");
+
+
 
 /**
  * End Global Variables
@@ -57,7 +60,7 @@ let changeNavbar= ()=> {
   navbar.parentElement.parentElement.style.opacity = "1";
   setTimeout( ()=> {
   navbar.parentElement.parentElement.style.opacity = "0";
-  }, 2000);
+  }, 5000);
 }
 
 /**
@@ -67,33 +70,61 @@ let changeNavbar= ()=> {
  */
 
 // build the nav
+
+//FIRST OPTION!!------------------
+// let buildNav= ()=> {
+//   let sections = document.querySelectorAll("section");
+//   for (const section of sections) {
+//     let element = document.createElement("li");
+//     element.innerHTML = `<li class="navbar__menu menu__link"><a href="#${
+//       section.id
+//     }">${section.querySelector("h2").textContent}</a></li>`;
+//     navbar.appendChild(element);
+//   }
+// }
+
+//Second OPTION!!------------------
 let buildNav= ()=> {
-  let sections = document.querySelectorAll("section");
   for (const section of sections) {
     let element = document.createElement("li");
-    element.innerHTML = `<li class="navbar__menu menu__link"><a href="#${
-      section.id
-    }">${section.querySelector("h2").textContent}</a></li>`;
+    element.innerHTML = `<li class="navbar__menu menu__link">${section.querySelector("h2").textContent}</li>`;
     navbar.appendChild(element);
   }
+
+  navbar.addEventListener('click',(e)=>{
+    let secNo = parseInt(e.target.textContent.split(" ")[1]);
+    sections[secNo-1].scrollIntoView({ behavior:'smooth'})
+    
+  })
+  
+  
 }
+
+
+
 
 // Add class 'active' to section when near top of viewport
 let activateSections = ()=>{
 document.addEventListener("scroll",  ()=> {
-  let sections = document.querySelectorAll("section");
   if (elementInViewport(document.querySelector('footer'))) {
     document.getElementById('scroll_btn').classList.add('show-btn')
   } else {
     document.getElementById('scroll_btn').classList.remove('show-btn')
   }
-
+  
+  let i=0;
+  let list = document.querySelectorAll('li');
   for (const section of sections) {
+    i++;
     if (elementInViewport(section)) {
       section.classList.add("your-active-class");
+      list[i].classList.add("active");
+      console.log(list[i].style.background);
     } else {
       section.classList.remove("your-active-class");
+      list[i].classList.remove("active");
     }
+    i++
   }
   changeNavbar();
 });
@@ -117,6 +148,8 @@ document.getElementById('scroll_btn').addEventListener('click',()=>{
 buildNav();
 // Scroll to section on link click
 
+
+
 //Done using page anchors
 
 // Set sections as active
@@ -124,7 +157,8 @@ activateSections();
 
 //Creating the collapsible sections
 
-for (const button of buttons) {
+let collapsible = ()=>{
+  for (const button of buttons) {
   let sectionHeader = document.createElement("h2");
   button.insertAdjacentElement("beforebegin", sectionHeader);
   sectionHeader.textContent = button.nextElementSibling.querySelector("h2").textContent;
@@ -144,6 +178,11 @@ for (const button of buttons) {
       button.nextElementSibling.style.display = "block";
       sectionHeader.style.display="none";
     }
-  });
+  })
 }
+}
+
+document.addEventListener('DOMContentLoaded',collapsible())
+
+
 
